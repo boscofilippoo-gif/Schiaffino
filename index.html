@@ -1,0 +1,1640 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Centro Schiaffino — Mockup</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #0D0D0D; }
+
+    /* ─── REVEAL ─── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-d1 { transition-delay: 0.1s; }
+    .reveal-d2 { transition-delay: 0.2s; }
+    .reveal-d3 { transition-delay: 0.3s; }
+    .reveal-d4 { transition-delay: 0.4s; }
+    .reveal-d5 { transition-delay: 0.5s; }
+    .reveal-d6 { transition-delay: 0.6s; }
+
+    /* ─── NAVBAR ─── */
+    .nb {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(13,13,13,0.0);
+      transition: background 0.4s ease, border-color 0.4s ease;
+      border-bottom: 1px solid transparent;
+    }
+    .nb.scrolled {
+      background: rgba(13,13,13,0.96);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    }
+    .nb-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 48px; height: 80px;
+    }
+    .nb-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+    .nb-logo-img {
+      width: 48px; height: 48px; border-radius: 50%; background: #D01A1A;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Bebas Neue', sans-serif; font-size: 18px; color: white;
+      letter-spacing: 1px; flex-shrink: 0;
+    }
+    .nb-logo-wordmark { display: flex; flex-direction: column; line-height: 1; }
+    .nb-logo-top { font-family: 'Bebas Neue', sans-serif; font-size: 22px; color: #fff; letter-spacing: 0.08em; }
+    .nb-logo-bottom { font-size: 10px; color: #D01A1A; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; margin-top: 2px; }
+    .nb-nav { display: flex; align-items: center; gap: 2px; }
+    .nb-item {
+      position: relative; padding: 10px 16px; font-size: 12px; font-weight: 600;
+      color: rgba(255,255,255,0.55); letter-spacing: 0.12em; text-transform: uppercase;
+      text-decoration: none; cursor: pointer; transition: color 0.2s;
+      display: flex; align-items: center; gap: 5px; white-space: nowrap;
+    }
+    .nb-item:hover { color: #fff; }
+    .nb-item.active { color: #fff; }
+    .nb-item.active::before {
+      content: ''; position: absolute; left: 16px; right: 16px;
+      bottom: 4px; height: 1.5px; background: #D01A1A;
+    }
+    .nb-chevron {
+      width: 7px; height: 7px;
+      border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor;
+      transform: rotate(45deg) translateY(-2px); opacity: 0.5; flex-shrink: 0;
+    }
+    .nb-dropdown {
+      position: absolute; top: 100%; left: 0; background: #161616;
+      border-top: 2px solid #D01A1A; min-width: 200px;
+      display: none; flex-direction: column; z-index: 200;
+    }
+    .nb-item:hover .nb-dropdown { display: flex; }
+    .nb-dropdown a {
+      padding: 11px 20px; font-size: 11px; font-weight: 500; letter-spacing: 0.1em;
+      text-transform: uppercase; color: rgba(255,255,255,0.55); text-decoration: none;
+      border-bottom: 1px solid rgba(255,255,255,0.04); transition: color 0.15s, padding-left 0.15s;
+    }
+    .nb-dropdown a:hover { color: #fff; padding-left: 26px; }
+    .nb-right { display: flex; align-items: center; gap: 20px; }
+    .nb-tel { font-size: 12px; font-weight: 500; color: rgba(255,255,255,0.4); letter-spacing: 0.05em; white-space: nowrap; }
+    .nb-divider { width: 1px; height: 20px; background: rgba(255,255,255,0.1); }
+    .nb-cta {
+      background: #D01A1A; color: #fff; font-family: 'Bebas Neue', sans-serif;
+      font-size: 16px; letter-spacing: 0.15em; padding: 10px 28px;
+      text-decoration: none; display: inline-block; transition: background 0.2s;
+      clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%); white-space: nowrap;
+    }
+    .nb-cta:hover { background: #B01515; }
+    .nb-border { height: 3px; background: linear-gradient(90deg, #D01A1A 0%, #8B0000 50%, transparent 100%); }
+
+    /* ─── HERO ─── */
+    .hero {
+      position: relative; width: 100%; height: 100vh; min-height: 680px;
+      background: #0D0D0D; overflow: hidden; font-family: 'Inter', sans-serif;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background: url('https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=1400&q=80') center/cover no-repeat;
+      opacity: 0.28;
+    }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(105deg, rgba(13,13,13,0.97) 0%, rgba(13,13,13,0.75) 50%, rgba(13,13,13,0.3) 100%);
+    }
+    .hero-red-slash { position: absolute; top: 0; right: 180px; width: 6px; height: 100%; background: #D01A1A; transform: skewX(-8deg); opacity: 0.9; }
+    .hero-red-slash2 { position: absolute; top: 0; right: 196px; width: 2px; height: 100%; background: #D01A1A; transform: skewX(-8deg); opacity: 0.35; }
+    .hero-content {
+      position: relative; z-index: 10; height: calc(100% - 110px);
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 80px 48px 0; max-width: 720px;
+    }
+    .hero-eyebrow { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; opacity: 0; animation: fadeUp 0.6s ease forwards 0.3s; }
+    .hero-eyebrow-line { width: 36px; height: 2px; background: #D01A1A; }
+    .hero-eyebrow-text { font-size: 11px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: #D01A1A; }
+    .hero-headline { font-family: 'Bebas Neue', sans-serif; font-size: 96px; line-height: 0.92; color: #fff; letter-spacing: 0.02em; margin-bottom: 24px; }
+    .hero-headline .word { display: inline-block; opacity: 0; animation: fadeUp 0.5s ease forwards; }
+    .hero-headline .word:nth-child(1) { animation-delay: 0.5s; }
+    .hero-headline .word:nth-child(2) { animation-delay: 0.65s; }
+    .hero-headline .word:nth-child(3) { animation-delay: 0.8s; }
+    .hero-headline .word:nth-child(4) { animation-delay: 0.95s; }
+    .hero-headline .word:nth-child(5) { animation-delay: 1.1s; }
+    .red { color: #D01A1A; }
+    .hero-sub { font-size: 15px; font-weight: 400; color: rgba(255,255,255,0.55); line-height: 1.65; max-width: 440px; margin-bottom: 40px; letter-spacing: 0.01em; opacity: 0; animation: fadeUp 0.6s ease forwards 1.2s; }
+    .hero-ctas { display: flex; align-items: center; gap: 16px; opacity: 0; animation: fadeUp 0.6s ease forwards 1.35s; }
+    .hero-cta-primary { background: #D01A1A; color: #fff; font-family: 'Bebas Neue', sans-serif; font-size: 18px; letter-spacing: 0.14em; padding: 14px 36px; text-decoration: none; clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%); display: inline-block; transition: background 0.2s; }
+    .hero-cta-primary:hover { background: #B01515; }
+    .hero-cta-secondary { display: flex; align-items: center; gap: 10px; color: rgba(255,255,255,0.7); font-size: 13px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 2px; transition: color 0.2s; }
+    .hero-cta-secondary:hover { color: #fff; }
+    .hero-cta-arrow { width: 20px; height: 20px; border: 1.5px solid rgba(255,255,255,0.4); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; color: #fff; }
+    .hero-stats { position: absolute; bottom: 0; left: 0; right: 0; z-index: 10; display: flex; border-top: 1px solid rgba(255,255,255,0.07); }
+    .hero-stat { flex: 1; padding: 20px 48px; border-right: 1px solid rgba(255,255,255,0.07); display: flex; align-items: center; gap: 16px; opacity: 0; animation: fadeUp 0.5s ease forwards; }
+    .hero-stat:nth-child(1) { animation-delay: 1.5s; }
+    .hero-stat:nth-child(2) { animation-delay: 1.6s; }
+    .hero-stat:nth-child(3) { animation-delay: 1.7s; }
+    .hero-stat:nth-child(4) { animation-delay: 1.8s; }
+    .hero-stat:last-child { border-right: none; }
+    .hero-stat-num { font-family: 'Bebas Neue', sans-serif; font-size: 42px; color: #fff; line-height: 1; }
+    .hero-stat-label { font-size: 11px; font-weight: 500; color: rgba(255,255,255,0.4); letter-spacing: 0.12em; text-transform: uppercase; line-height: 1.4; max-width: 80px; }
+    .hero-scroll { position: absolute; right: 48px; bottom: 120px; z-index: 10; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+    .hero-scroll-text { font-size: 9px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.25); writing-mode: vertical-rl; }
+    .hero-scroll-line { width: 1px; height: 40px; background: rgba(255,255,255,0.15); position: relative; overflow: hidden; }
+    .hero-scroll-line::after { content: ''; position: absolute; top: -100%; left: 0; width: 100%; height: 100%; background: #D01A1A; animation: scrollPulse 1.8s ease-in-out infinite 2s; }
+
+    /* ─── SCUOLA CALCIO ─── */
+    .sc {
+      background: #111111;
+      padding: 100px 48px;
+      position: relative;
+      overflow: hidden;
+    }
+    .sc-slash-bg {
+      position: absolute; top: 0; bottom: 0; right: -60px;
+      width: 320px; background: rgba(208,26,26,0.03);
+      transform: skewX(-8deg); pointer-events: none;
+    }
+    .sc-top {
+      display: flex; align-items: flex-end;
+      justify-content: space-between; margin-bottom: 64px; gap: 40px;
+    }
+    .sc-label { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+    .sc-label-line { width: 36px; height: 2px; background: #D01A1A; }
+    .sc-label-text { font-size: 11px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: #D01A1A; }
+    .sc-title { font-family: 'Bebas Neue', sans-serif; font-size: 64px; line-height: 0.95; color: #fff; letter-spacing: 0.02em; max-width: 480px; }
+    .sc-desc { font-size: 14px; font-weight: 400; color: rgba(255,255,255,0.45); line-height: 1.7; max-width: 340px; flex-shrink: 0; }
+    .sc-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2px; }
+    .sc-card {
+      background: #0D0D0D; padding: 32px 28px;
+      position: relative; overflow: hidden; cursor: pointer;
+      transition: background 0.3s ease; border: 1px solid rgba(255,255,255,0.04);
+    }
+    .sc-card::before {
+      content: ''; position: absolute; bottom: 0; left: 0;
+      width: 100%; height: 2px; background: #D01A1A;
+      transform: scaleX(0); transform-origin: left; transition: transform 0.35s ease;
+    }
+    .sc-card:hover { background: #161616; }
+    .sc-card:hover::before { transform: scaleX(1); }
+    .sc-card-num {
+      font-family: 'Bebas Neue', sans-serif; font-size: 56px;
+      color: rgba(255,255,255,0.05); line-height: 1;
+      position: absolute; top: 16px; right: 20px;
+      letter-spacing: 0.02em; transition: color 0.3s;
+    }
+    .sc-card:hover .sc-card-num { color: rgba(208,26,26,0.12); }
+    .sc-card-icon {
+      width: 40px; height: 40px; border: 1.5px solid rgba(208,26,26,0.4);
+      border-radius: 50%; display: flex; align-items: center;
+      justify-content: center; margin-bottom: 20px;
+    }
+    .sc-card-icon svg { width: 18px; height: 18px; fill: #D01A1A; }
+    .sc-card-cat { font-size: 11px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: #D01A1A; margin-bottom: 8px; }
+    .sc-card-name { font-family: 'Bebas Neue', sans-serif; font-size: 28px; color: #fff; letter-spacing: 0.04em; margin-bottom: 8px; line-height: 1; }
+    .sc-card-age { font-size: 12px; font-weight: 500; color: rgba(255,255,255,0.35); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 16px; }
+    .sc-card-desc { font-size: 13px; color: rgba(255,255,255,0.4); line-height: 1.6; font-weight: 400; }
+    .sc-card-arrow { margin-top: 24px; font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.25); display: flex; align-items: center; gap: 8px; transition: color 0.2s; }
+    .sc-card:hover .sc-card-arrow { color: #D01A1A; }
+    .sc-cta-wrap { margin-top: 56px; display: flex; align-items: center; justify-content: space-between; padding-top: 40px; border-top: 1px solid rgba(255,255,255,0.06); }
+    .sc-cta-text { font-size: 14px; color: rgba(255,255,255,0.4); max-width: 360px; line-height: 1.6; }
+    .sc-cta-btn { background: #D01A1A; color: #fff; font-family: 'Bebas Neue', sans-serif; font-size: 17px; letter-spacing: 0.14em; padding: 14px 40px; text-decoration: none; clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%); display: inline-block; transition: background 0.2s; white-space: nowrap; flex-shrink: 0; }
+    .sc-cta-btn:hover { background: #B01515; }
+
+    /* ─── KEYFRAMES ─── */
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes scrollPulse { 0% { top: -100%; } 100% { top: 100%; } }
+    /* ─── STRUTTURE ─── */
+    .str {
+      background: #0D0D0D;
+      padding: 100px 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .str-header {
+      padding: 0 48px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 56px;
+      gap: 40px;
+    }
+    .str-label { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+    .str-label-line { width: 36px; height: 2px; background: #D01A1A; }
+    .str-label-text { font-size: 11px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: #D01A1A; }
+    .str-title { font-family: 'Bebas Neue', sans-serif; font-size: 64px; line-height: 0.95; color: #fff; letter-spacing: 0.02em; }
+    .str-intro { font-size: 14px; color: rgba(255,255,255,0.4); line-height: 1.7; max-width: 320px; flex-shrink: 0; }
+
+    .str-panels {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .str-panel {
+      position: relative;
+      height: 520px;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .str-panel-img {
+      position: absolute; inset: 0;
+      background-size: cover;
+      background-position: center;
+      transition: transform 0.7s ease;
+      opacity: 0.45;
+    }
+    .str-panel:hover .str-panel-img { transform: scale(1.05); opacity: 0.6; }
+
+    .str-panel-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(13,13,13,0.98) 0%, rgba(13,13,13,0.5) 50%, rgba(13,13,13,0.1) 100%);
+    }
+
+    .str-panel-content {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 40px 44px;
+      z-index: 2;
+    }
+
+    .str-panel-tag {
+      display: inline-block;
+      background: #D01A1A;
+      color: #fff;
+      font-size: 10px; font-weight: 700;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      padding: 4px 12px;
+      margin-bottom: 16px;
+      clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+    }
+
+    .str-panel-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 40px; color: #fff;
+      letter-spacing: 0.03em; line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .str-panel-address {
+      font-size: 12px; color: rgba(255,255,255,0.4);
+      letter-spacing: 0.08em; text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+
+    .str-panel-features {
+      display: flex; flex-direction: column; gap: 8px;
+      margin-bottom: 28px;
+      max-height: 0; overflow: hidden;
+      transition: max-height 0.4s ease, opacity 0.4s ease;
+      opacity: 0;
+    }
+    .str-panel:hover .str-panel-features { max-height: 200px; opacity: 1; }
+
+    .str-panel-feat {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 12px; color: rgba(255,255,255,0.55);
+      font-weight: 500; letter-spacing: 0.04em;
+    }
+    .str-panel-feat-dot {
+      width: 5px; height: 5px; border-radius: 50%;
+      background: #D01A1A; flex-shrink: 0;
+    }
+
+    .str-panel-cta {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-size: 12px; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: #fff; text-decoration: none;
+      border-bottom: 1px solid rgba(255,255,255,0.3);
+      padding-bottom: 2px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .str-panel:hover .str-panel-cta { color: #D01A1A; border-color: #D01A1A; }
+
+    .str-panel-divider {
+      position: absolute; top: 0; bottom: 0;
+      right: 0; width: 1px;
+      background: rgba(255,255,255,0.06);
+      z-index: 3;
+    }
+
+    /* ─── PRIMA SQUADRA ─── */
+    .ps {
+      background: #111111;
+      padding: 100px 48px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .ps-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .ps-left { position: relative; }
+
+    .ps-img-wrap {
+      position: relative;
+      height: 540px;
+    }
+
+    .ps-img-main {
+      position: absolute;
+      inset: 0;
+      background: url('https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800&q=80') center/cover no-repeat;
+      opacity: 0.6;
+    }
+
+    .ps-img-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(13,13,13,0.2) 0%, rgba(13,13,13,0.6) 100%);
+    }
+
+    .ps-img-badge {
+      position: absolute;
+      bottom: -20px;
+      right: -20px;
+      width: 130px; height: 130px;
+      background: #D01A1A;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 2px;
+      clip-path: polygon(15px 0%, 100% 0%, calc(100% - 15px) 100%, 0% 100%);
+    }
+
+    .ps-badge-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 42px; color: #fff; line-height: 1;
+      letter-spacing: 0.04em;
+    }
+
+    .ps-badge-label {
+      font-size: 9px; font-weight: 700;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: rgba(255,255,255,0.75);
+      text-align: center; line-height: 1.3;
+    }
+
+    .ps-slash-accent {
+      position: absolute;
+      top: 30px; left: -12px;
+      width: 4px; height: 80px;
+      background: #D01A1A;
+      transform: skewY(-8deg);
+    }
+
+    .ps-right {}
+
+    .ps-label { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+    .ps-label-line { width: 36px; height: 2px; background: #D01A1A; }
+    .ps-label-text { font-size: 11px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: #D01A1A; }
+
+    .ps-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 64px; line-height: 0.95;
+      color: #fff; letter-spacing: 0.02em;
+      margin-bottom: 24px;
+    }
+
+    .ps-desc {
+      font-size: 14px; color: rgba(255,255,255,0.45);
+      line-height: 1.75; margin-bottom: 40px;
+    }
+
+    .ps-monza {
+      display: flex; align-items: center; gap: 16px;
+      padding: 20px 24px;
+      background: rgba(208,26,26,0.07);
+      border-left: 3px solid #D01A1A;
+      margin-bottom: 40px;
+    }
+
+    .ps-monza-logo {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: rgba(255,255,255,0.08);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 13px; color: #fff; letter-spacing: 0.05em;
+      flex-shrink: 0;
+    }
+
+    .ps-monza-text { font-size: 13px; color: rgba(255,255,255,0.6); line-height: 1.55; }
+    .ps-monza-text strong { color: #fff; font-weight: 600; }
+
+    .ps-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1px;
+      background: rgba(255,255,255,0.06);
+      margin-bottom: 40px;
+    }
+
+    .ps-stat-item {
+      background: #111111;
+      padding: 20px 16px;
+      text-align: center;
+    }
+
+    .ps-stat-val {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 36px; color: #fff; line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .ps-stat-lbl {
+      font-size: 10px; font-weight: 600;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+    }
+
+    .ps-ctas { display: flex; align-items: center; gap: 16px; }
+
+    .ps-cta-primary {
+      background: #D01A1A; color: #fff;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 17px; letter-spacing: 0.14em;
+      padding: 13px 36px; text-decoration: none;
+      clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+      display: inline-block; transition: background 0.2s;
+    }
+    .ps-cta-primary:hover { background: #B01515; }
+
+    .ps-cta-secondary {
+      font-size: 12px; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: rgba(255,255,255,0.45); text-decoration: none;
+      border-bottom: 1px solid rgba(255,255,255,0.15);
+      padding-bottom: 2px; transition: color 0.2s;
+    }
+    .ps-cta-secondary:hover { color: #fff; }
+
+    /* ─── NEWS ─── */
+    .news {
+      background: #0D0D0D;
+      padding: 100px 48px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .news-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 56px;
+      gap: 40px;
+    }
+
+    .news-label { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+    .news-label-line { width: 36px; height: 2px; background: #D01A1A; }
+    .news-label-text { font-size: 11px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: #D01A1A; }
+
+    .news-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 64px; line-height: 0.95;
+      color: #fff; letter-spacing: 0.02em;
+    }
+
+    .news-all {
+      font-size: 12px; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: rgba(255,255,255,0.4); text-decoration: none;
+      border-bottom: 1px solid rgba(255,255,255,0.15);
+      padding-bottom: 2px; white-space: nowrap;
+      transition: color 0.2s, border-color 0.2s;
+      flex-shrink: 0; align-self: flex-end;
+    }
+    .news-all:hover { color: #D01A1A; border-color: #D01A1A; }
+
+    .news-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 2px;
+    }
+
+    .news-card {
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      background: #111111;
+      transition: background 0.3s;
+    }
+    .news-card:hover { background: #161616; }
+
+    .news-card-img {
+      width: 100%; height: 240px;
+      background-size: cover;
+      background-position: center;
+      opacity: 0.55;
+      transition: opacity 0.4s ease, transform 0.6s ease;
+    }
+    .news-card:hover .news-card-img { opacity: 0.75; transform: scale(1.04); }
+
+    .news-card.featured .news-card-img { height: 320px; }
+
+    .news-card-body { padding: 24px 28px 28px; }
+
+    .news-card-meta {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .news-card-cat {
+      font-size: 10px; font-weight: 700;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      color: #D01A1A;
+    }
+
+    .news-card-dot {
+      width: 3px; height: 3px; border-radius: 50%;
+      background: rgba(255,255,255,0.2);
+    }
+
+    .news-card-date {
+      font-size: 11px; color: rgba(255,255,255,0.3);
+      font-weight: 500; letter-spacing: 0.05em;
+    }
+
+    .news-card-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 22px; color: #fff;
+      letter-spacing: 0.03em; line-height: 1.1;
+      margin-bottom: 10px;
+      transition: color 0.2s;
+    }
+    .news-card.featured .news-card-title { font-size: 30px; }
+    .news-card:hover .news-card-title { color: #D01A1A; }
+
+    .news-card-excerpt {
+      font-size: 13px; color: rgba(255,255,255,0.38);
+      line-height: 1.6; font-weight: 400;
+    }
+    .news-card:not(.featured) .news-card-excerpt { display: none; }
+
+    .news-card-footer {
+      padding: 0 28px 24px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+
+    .news-card-link {
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: rgba(255,255,255,0.25); text-decoration: none;
+      transition: color 0.2s;
+    }
+    .news-card:hover .news-card-link { color: #D01A1A; }
+
+    .news-card-arrow-icon {
+      width: 28px; height: 28px;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; color: rgba(255,255,255,0.3);
+      transition: background 0.2s, border-color 0.2s, color 0.2s;
+    }
+    .news-card:hover .news-card-arrow-icon {
+      background: #D01A1A; border-color: #D01A1A; color: #fff;
+    }
+
+    .news-card-divider {
+      height: 1px;
+      background: rgba(255,255,255,0.05);
+      margin: 0 28px;
+    }
+
+    .news-secondary { display: flex; flex-direction: column; gap: 2px; }
+
+    /* ─── CAMP ─── */
+    .camp {
+      background: #111111;
+      padding: 100px 48px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .camp-bg-num {
+      position: absolute;
+      right: -20px; top: 50%;
+      transform: translateY(-50%);
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 320px; color: rgba(255,255,255,0.018);
+      line-height: 1; pointer-events: none;
+      letter-spacing: -0.02em;
+      user-select: none;
+    }
+
+    .camp-header {
+      display: flex; align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 56px; gap: 40px;
+    }
+
+    .camp-label { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+    .camp-label-line { width: 36px; height: 2px; background: #D01A1A; }
+    .camp-label-text { font-size: 11px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: #D01A1A; }
+    .camp-title { font-family: 'Bebas Neue', sans-serif; font-size: 64px; line-height: 0.95; color: #fff; letter-spacing: 0.02em; }
+    .camp-desc { font-size: 14px; color: rgba(255,255,255,0.4); line-height: 1.7; max-width: 340px; flex-shrink: 0; }
+
+    .camp-panels {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+    }
+
+    .camp-panel {
+      position: relative;
+      overflow: hidden;
+      min-height: 480px;
+      cursor: pointer;
+    }
+
+    .camp-panel-bg {
+      position: absolute; inset: 0;
+      background-size: cover; background-position: center;
+      opacity: 0.3;
+      transition: opacity 0.5s ease, transform 0.7s ease;
+    }
+    .camp-panel:hover .camp-panel-bg { opacity: 0.5; transform: scale(1.04); }
+
+    .camp-panel-color {
+      position: absolute; inset: 0;
+    }
+
+    .camp-panel.summer .camp-panel-color {
+      background: linear-gradient(135deg, rgba(180,80,0,0.35) 0%, rgba(13,13,13,0.85) 70%);
+    }
+    .camp-panel.winter .camp-panel-color {
+      background: linear-gradient(135deg, rgba(20,60,120,0.35) 0%, rgba(13,13,13,0.85) 70%);
+    }
+
+    .camp-panel-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(13,13,13,0.95) 0%, rgba(13,13,13,0.3) 60%, transparent 100%);
+    }
+
+    .camp-panel-content {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 40px 40px;
+      z-index: 2;
+    }
+
+    .camp-panel-season {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .camp-panel-icon {
+      width: 36px; height: 36px;
+      border: 1.5px solid rgba(255,255,255,0.2);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px;
+    }
+
+    .camp-panel-season-label {
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+    }
+
+    .camp-panel-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 52px; color: #fff;
+      letter-spacing: 0.03em; line-height: 0.95;
+      margin-bottom: 16px;
+    }
+
+    .camp-panel-info {
+      display: flex; gap: 24px; margin-bottom: 28px; flex-wrap: wrap;
+    }
+
+    .camp-panel-info-item {
+      display: flex; flex-direction: column; gap: 3px;
+    }
+
+    .camp-info-label {
+      font-size: 9px; font-weight: 700;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+    }
+
+    .camp-info-val {
+      font-size: 13px; font-weight: 600;
+      color: rgba(255,255,255,0.75);
+    }
+
+    .camp-panel-divider {
+      width: 40px; height: 1px;
+      background: #D01A1A;
+      margin-bottom: 20px;
+      transition: width 0.4s ease;
+    }
+    .camp-panel:hover .camp-panel-divider { width: 80px; }
+
+    .camp-panel-cta {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: #D01A1A; color: #fff;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 16px; letter-spacing: 0.14em;
+      padding: 11px 28px; text-decoration: none;
+      clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+      transition: background 0.2s;
+      opacity: 0; transform: translateY(10px);
+      transition: opacity 0.3s ease, transform 0.3s ease, background 0.2s;
+    }
+    .camp-panel:hover .camp-panel-cta { opacity: 1; transform: translateY(0); }
+    .camp-panel-cta:hover { background: #B01515; }
+
+    .camp-panel-border {
+      position: absolute; top: 0; right: 0;
+      width: 0; height: 100%;
+      background: rgba(255,255,255,0.04);
+      transition: none;
+    }
+
+    /* ─── SPONSOR ─── */
+    .spon {
+      background: #0D0D0D;
+      padding: 72px 48px;
+      position: relative;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      overflow: hidden;
+    }
+
+    .spon-header {
+      display: flex; align-items: center;
+      gap: 24px; margin-bottom: 48px;
+    }
+
+    .spon-label-text {
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 0.22em; text-transform: uppercase;
+      color: rgba(255,255,255,0.2);
+      white-space: nowrap;
+    }
+
+    .spon-line {
+      flex: 1; height: 1px;
+      background: rgba(255,255,255,0.06);
+    }
+
+    .spon-track-wrap {
+      overflow: hidden;
+      position: relative;
+    }
+
+    .spon-track-wrap::before,
+    .spon-track-wrap::after {
+      content: '';
+      position: absolute; top: 0; bottom: 0;
+      width: 80px; z-index: 2;
+      pointer-events: none;
+    }
+    .spon-track-wrap::before {
+      left: 0;
+      background: linear-gradient(to right, #0D0D0D, transparent);
+    }
+    .spon-track-wrap::after {
+      right: 0;
+      background: linear-gradient(to left, #0D0D0D, transparent);
+    }
+
+    .spon-track {
+      display: flex;
+      align-items: center;
+      gap: 64px;
+      animation: marquee 28s linear infinite;
+      width: max-content;
+    }
+
+    .spon-track:hover { animation-play-state: paused; }
+
+    .spon-logo {
+      display: flex; align-items: center; justify-content: center;
+      padding: 16px 28px;
+      border: 1px solid rgba(255,255,255,0.07);
+      min-width: 140px; height: 64px;
+      opacity: 0.4;
+      transition: opacity 0.3s, border-color 0.3s;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .spon-logo:hover { opacity: 0.9; border-color: rgba(208,26,26,0.4); }
+
+    .spon-logo-text {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 20px; color: #fff;
+      letter-spacing: 0.1em; white-space: nowrap;
+    }
+
+    .spon-logo-sub {
+      font-size: 9px; font-weight: 600;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      margin-top: 2px;
+    }
+
+    .spon-cta-row {
+      margin-top: 48px;
+      display: flex; align-items: center;
+      justify-content: center; gap: 16px;
+    }
+
+    .spon-cta-line { flex: 1; height: 1px; background: rgba(255,255,255,0.05); }
+
+    .spon-cta-link {
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: rgba(255,255,255,0.25); text-decoration: none;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      padding-bottom: 2px; white-space: nowrap;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .spon-cta-link:hover { color: #D01A1A; border-color: #D01A1A; }
+
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    /* ─── FOOTER ─── */
+    .ft {
+      background: #0a0a0a;
+      padding: 80px 48px 0;
+      position: relative;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .ft-top {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 60px;
+      padding-bottom: 64px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .ft-brand {}
+
+    .ft-brand-logo {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 24px; text-decoration: none;
+    }
+
+    .ft-brand-circle {
+      width: 48px; height: 48px; border-radius: 50%;
+      background: #D01A1A;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 17px; color: #fff; letter-spacing: 1px;
+      flex-shrink: 0;
+    }
+
+    .ft-brand-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 20px; color: #fff; letter-spacing: 0.07em;
+    }
+
+    .ft-brand-year {
+      font-size: 10px; color: #D01A1A; font-weight: 600;
+      letter-spacing: 0.18em; text-transform: uppercase; margin-top: 2px;
+    }
+
+    .ft-brand-desc {
+      font-size: 13px; color: rgba(255,255,255,0.35);
+      line-height: 1.75; margin-bottom: 28px; max-width: 280px;
+    }
+
+    .ft-social {
+      display: flex; gap: 10px;
+    }
+
+    .ft-social-btn {
+      width: 36px; height: 36px;
+      border: 1px solid rgba(255,255,255,0.1);
+      display: flex; align-items: center; justify-content: center;
+      color: rgba(255,255,255,0.4); font-size: 12px; font-weight: 700;
+      text-decoration: none; letter-spacing: 0.04em;
+      transition: background 0.2s, border-color 0.2s, color 0.2s;
+    }
+    .ft-social-btn:hover { background: #D01A1A; border-color: #D01A1A; color: #fff; }
+
+    .ft-col-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 16px; color: #fff;
+      letter-spacing: 0.12em; margin-bottom: 20px;
+    }
+
+    .ft-col-title::after {
+      content: '';
+      display: block;
+      width: 24px; height: 2px;
+      background: #D01A1A;
+      margin-top: 8px;
+    }
+
+    .ft-col-links {
+      display: flex; flex-direction: column; gap: 10px;
+    }
+
+    .ft-col-links a {
+      font-size: 12px; color: rgba(255,255,255,0.35);
+      text-decoration: none; font-weight: 500;
+      letter-spacing: 0.04em;
+      transition: color 0.2s, padding-left 0.2s;
+    }
+    .ft-col-links a:hover { color: #fff; padding-left: 6px; }
+
+    .ft-contact-item {
+      display: flex; flex-direction: column; gap: 3px;
+      margin-bottom: 16px;
+    }
+
+    .ft-contact-label {
+      font-size: 9px; font-weight: 700;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: rgba(255,255,255,0.25);
+    }
+
+    .ft-contact-val {
+      font-size: 13px; color: rgba(255,255,255,0.55);
+      font-weight: 500;
+    }
+
+    .ft-contact-val a {
+      color: inherit; text-decoration: none;
+      transition: color 0.2s;
+    }
+    .ft-contact-val a:hover { color: #D01A1A; }
+
+    .ft-bottom {
+      padding: 24px 0;
+      display: flex; align-items: center;
+      justify-content: space-between; gap: 20px;
+    }
+
+    .ft-copy {
+      font-size: 11px; color: rgba(255,255,255,0.2);
+      font-weight: 500; letter-spacing: 0.04em;
+    }
+
+    .ft-copy span { color: #D01A1A; }
+
+    .ft-bottom-links {
+      display: flex; gap: 24px;
+    }
+
+    .ft-bottom-links a {
+      font-size: 11px; color: rgba(255,255,255,0.2);
+      text-decoration: none; font-weight: 500;
+      letter-spacing: 0.04em; transition: color 0.2s;
+    }
+    .ft-bottom-links a:hover { color: rgba(255,255,255,0.6); }
+
+    .ft-red-bar {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #D01A1A 0%, #8B0000 40%, transparent 100%);
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="nb" id="navbar">
+    <div class="nb-inner">
+      <a class="nb-logo" href="#">
+        <div class="nb-logo-img">CS</div>
+        <div class="nb-logo-wordmark">
+          <span class="nb-logo-top">Centro Schiaffino</span>
+          <span class="nb-logo-bottom">Dal 1988 · Paderno Dugnano</span>
+        </div>
+      </a>
+      <nav class="nb-nav">
+        <a class="nb-item active" href="#">Home</a>
+        <div class="nb-item">Società <span class="nb-chevron"></span>
+          <div class="nb-dropdown">
+            <a href="#">Chi siamo</a><a href="#">Storia</a>
+            <a href="#">Organigramma</a><a href="#">Strutture sportive</a>
+          </div>
+        </div>
+        <div class="nb-item">Scuola Calcio <span class="nb-chevron"></span>
+          <div class="nb-dropdown">
+            <a href="#">Attività di base</a>
+            <a href="#">Programmi e obiettivi</a><a href="#">Iscrizioni</a>
+          </div>
+        </div>
+        <div class="nb-item">Squadre <span class="nb-chevron"></span>
+          <div class="nb-dropdown">
+            <a href="#">Prima squadra</a>
+            <a href="#">Settore giovanile</a><a href="#">Calendari e classifiche</a>
+          </div>
+        </div>
+        <a class="nb-item" href="#">News</a>
+        <a class="nb-item" href="#">Contatti</a>
+      </nav>
+      <div class="nb-right">
+        <span class="nb-tel">338 509 2377</span>
+        <div class="nb-divider"></div>
+        <a class="nb-cta" href="#">Prenota ora</a>
+      </div>
+    </div>
+    <div class="nb-border"></div>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-red-slash"></div>
+    <div class="hero-red-slash2"></div>
+    <div class="hero-content">
+      <div class="hero-eyebrow">
+        <div class="hero-eyebrow-line"></div>
+        <span class="hero-eyebrow-text">Scuola Calcio FIGC · Dal 1988</span>
+      </div>
+      <h1 class="hero-headline">
+        <span class="word">Dove&nbsp;</span><span class="word">nascono&nbsp;</span><br>
+        <span class="word">i&nbsp;</span><span class="word"><span class="red">campioni</span>&nbsp;</span><br>
+        <span class="word">di domani</span>
+      </h1>
+      <p class="hero-sub">Centro Schiaffino forma ragazzi e ragazze dai 5 anni con istruttori qualificati FIGC. Due strutture sportive a Paderno Dugnano, una passione lunga oltre 35 anni.</p>
+      <div class="hero-ctas">
+        <a class="hero-cta-primary" href="#">Iscriviti alla Scuola Calcio</a>
+        <a class="hero-cta-secondary" href="#"><span class="hero-cta-arrow">→</span> Prenota un campo</a>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-num" data-target="35" data-suffix="+">0<span class="red">+</span></div>
+        <div class="hero-stat-label">Anni di attività</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num" data-target="400" data-suffix="+">0<span class="red">+</span></div>
+        <div class="hero-stat-label">Ragazzi tesserati</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num" data-target="2" data-suffix="">0</div>
+        <div class="hero-stat-label">Strutture sportive</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num" data-target="12" data-suffix="+">0<span class="red">+</span></div>
+        <div class="hero-stat-label">Squadre in campo</div>
+      </div>
+    </div>
+    <div class="hero-scroll">
+      <span class="hero-scroll-text">Scroll</span>
+      <div class="hero-scroll-line"></div>
+    </div>
+  </div>
+
+  <!-- SCUOLA CALCIO -->
+  <section class="sc">
+    <div class="sc-slash-bg"></div>
+    <div class="sc-top">
+      <div>
+        <div class="sc-label reveal">
+          <div class="sc-label-line"></div>
+          <span class="sc-label-text">Settore Giovanile</span>
+        </div>
+        <h2 class="sc-title reveal reveal-d1">La nostra<br><span class="red">Scuola Calcio</span></h2>
+      </div>
+      <p class="sc-desc reveal reveal-d2">Istruttori qualificati FIGC e laureati in Scienze Motorie guidano ogni ragazzo nel rispetto delle sue capacità fisiche e psicologiche. Il divertimento prima di tutto.</p>
+    </div>
+
+    <div class="sc-grid">
+      <div class="sc-card reveal reveal-d1">
+        <span class="sc-card-num">01</span>
+        <div class="sc-card-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>
+        <div class="sc-card-cat">Categoria</div>
+        <div class="sc-card-name">Piccoli Amici</div>
+        <div class="sc-card-age">Nati nel 2020–2021</div>
+        <div class="sc-card-desc">Il primo approccio al calcio attraverso il gioco libero e l'attività motoria di base.</div>
+        <div class="sc-card-arrow">Scopri →</div>
+      </div>
+      <div class="sc-card reveal reveal-d2">
+        <span class="sc-card-num">02</span>
+        <div class="sc-card-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>
+        <div class="sc-card-cat">Categoria</div>
+        <div class="sc-card-name">Primi Calci</div>
+        <div class="sc-card-age">Nati nel 2018–2019</div>
+        <div class="sc-card-desc">Sviluppo della coordinazione e dei fondamentali tecnici con partite a organico ridotto.</div>
+        <div class="sc-card-arrow">Scopri →</div>
+      </div>
+      <div class="sc-card reveal reveal-d3">
+        <span class="sc-card-num">03</span>
+        <div class="sc-card-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>
+        <div class="sc-card-cat">Categoria</div>
+        <div class="sc-card-name">Pulcini</div>
+        <div class="sc-card-age">Nati nel 2016–2017</div>
+        <div class="sc-card-desc">Tecnica individuale, spirito di squadra e prime esperienze agonistiche in campionato FIGC.</div>
+        <div class="sc-card-arrow">Scopri →</div>
+      </div>
+      <div class="sc-card reveal reveal-d4">
+        <span class="sc-card-num">04</span>
+        <div class="sc-card-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>
+        <div class="sc-card-cat">Categoria</div>
+        <div class="sc-card-name">Esordienti</div>
+        <div class="sc-card-age">Nati nel 2014–2015</div>
+        <div class="sc-card-desc">Consolidamento delle abilità tecniche e introduzione a concetti tattici di base.</div>
+        <div class="sc-card-arrow">Scopri →</div>
+      </div>
+      <div class="sc-card reveal reveal-d5">
+        <span class="sc-card-num">05</span>
+        <div class="sc-card-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>
+        <div class="sc-card-cat">Categoria</div>
+        <div class="sc-card-name">Giovanissimi</div>
+        <div class="sc-card-age">Nati nel 2012–2013</div>
+        <div class="sc-card-desc">Campionato provinciale e regionale. Crescita tattica e atletica programmata.</div>
+        <div class="sc-card-arrow">Scopri →</div>
+      </div>
+      <div class="sc-card reveal reveal-d6">
+        <span class="sc-card-num">06</span>
+        <div class="sc-card-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>
+        <div class="sc-card-cat">Categoria</div>
+        <div class="sc-card-name">Allievi & Juniores</div>
+        <div class="sc-card-age">Nati nel 2008–2011</div>
+        <div class="sc-card-desc">Settore agonistico avanzato con preparazione atletica dedicata e campionati regionali.</div>
+        <div class="sc-card-arrow">Scopri →</div>
+      </div>
+    </div>
+
+    <div class="sc-cta-wrap reveal">
+      <p class="sc-cta-text">Vuoi iscrivere tuo figlio? Le prove gratuite sono aperte a settembre. Contattaci per scoprire la categoria giusta.</p>
+      <a class="sc-cta-btn" href="#">Iscriviti ora</a>
+    </div>
+  </section>
+
+  <!-- STRUTTURE SPORTIVE -->
+  <section class="str">
+    <div class="str-header">
+      <div>
+        <div class="str-label reveal">
+          <div class="str-label-line"></div>
+          <span class="str-label-text">Dove giochiamo</span>
+        </div>
+        <h2 class="str-title reveal reveal-d1">Le nostre<br><span class="red">Strutture</span></h2>
+      </div>
+      <p class="str-intro reveal reveal-d2">Due impianti sportivi moderni a Paderno Dugnano, con campi in erba artificiale di ultima generazione, spogliatoi, bar e tribune.</p>
+    </div>
+
+    <div class="str-panels">
+
+      <div class="str-panel reveal reveal-d1">
+        <div class="str-panel-img" style="background-image: url('https://images.unsplash.com/photo-1459865264687-595d652de67e?w=900&q=80');"></div>
+        <div class="str-panel-overlay"></div>
+        <div class="str-panel-content">
+          <div class="str-panel-tag">Sede principale</div>
+          <div class="str-panel-name">Centro Sportivo<br>Via Sondrio</div>
+          <div class="str-panel-address">Via Sondrio 36, Paderno Dugnano</div>
+          <div class="str-panel-features">
+            <div class="str-panel-feat"><div class="str-panel-feat-dot"></div>1 campo a 11 in erba artificiale</div>
+            <div class="str-panel-feat"><div class="str-panel-feat-dot"></div>2 campi a 7 in erba artificiale</div>
+            <div class="str-panel-feat"><div class="str-panel-feat-dot"></div>Bar, tribuna coperta, 6 spogliatoi</div>
+          </div>
+          <a class="str-panel-cta" href="#">Prenota un campo →</a>
+        </div>
+        <div class="str-panel-divider"></div>
+      </div>
+
+      <div class="str-panel reveal reveal-d2">
+        <div class="str-panel-img" style="background-image: url('https://images.unsplash.com/photo-1529900748604-07564a03e7a6?w=900&q=80');"></div>
+        <div class="str-panel-overlay"></div>
+        <div class="str-panel-content">
+          <div class="str-panel-tag">Polo multisport</div>
+          <div class="str-panel-name">Country Sport<br>Village</div>
+          <div class="str-panel-address">Via Pepe 68, Paderno Dugnano</div>
+          <div class="str-panel-features">
+            <div class="str-panel-feat"><div class="str-panel-feat-dot"></div>3 campi a 5 coperti + 2 campi a 7</div>
+            <div class="str-panel-feat"><div class="str-panel-feat-dot"></div>5 campi da beach volley, 3 da padel</div>
+            <div class="str-panel-feat"><div class="str-panel-feat-dot"></div>Bar/ristorante interno</div>
+          </div>
+          <a class="str-panel-cta" href="#">Scopri il Village →</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- PRIMA SQUADRA -->
+  <section class="ps">
+    <div class="ps-inner">
+
+      <div class="ps-left reveal reveal-d1">
+        <div class="ps-slash-accent"></div>
+        <div class="ps-img-wrap">
+          <div class="ps-img-main"></div>
+          <div class="ps-img-overlay"></div>
+          <div class="ps-img-badge">
+            <div class="ps-badge-num">2ª</div>
+            <div class="ps-badge-label">Categoria</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ps-right">
+        <div class="ps-label reveal">
+          <div class="ps-label-line"></div>
+          <span class="ps-label-text">Squadra Senior</span>
+        </div>
+        <h2 class="ps-title reveal reveal-d1">La nostra<br><span class="red">Prima Squadra</span></h2>
+        <p class="ps-desc reveal reveal-d2">Nata nel 2022, la Prima Squadra milita nel Campionato di Seconda Categoria. Un progetto ambizioso che cresce stagione dopo stagione, con un gruppo di ragazzi determinati a scalare i campionati.</p>
+
+        <div class="ps-monza reveal reveal-d3">
+          <div class="ps-monza-logo">ACM</div>
+          <div class="ps-monza-text"><strong>Partnership con A.C. Monza S.p.A.</strong><br>Centro Schiaffino è Centro Tecnico ufficiale del club brianzolo. Un accordo che valorizza i nostri giovani talenti.</div>
+        </div>
+
+        <div class="ps-stats reveal reveal-d4">
+          <div class="ps-stat-item">
+            <div class="ps-stat-val"><span class="red">2ª</span></div>
+            <div class="ps-stat-lbl">Categoria</div>
+          </div>
+          <div class="ps-stat-item">
+            <div class="ps-stat-val">2022</div>
+            <div class="ps-stat-lbl">Anno fondazione</div>
+          </div>
+          <div class="ps-stat-item">
+            <div class="ps-stat-val"><span class="red">AC</span>M</div>
+            <div class="ps-stat-lbl">Partner tecnico</div>
+          </div>
+        </div>
+
+        <div class="ps-ctas reveal reveal-d5">
+          <a class="ps-cta-primary" href="#">Rosa e calendario</a>
+          <a class="ps-cta-secondary" href="#">Vuoi far parte della squadra? →</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- NEWS -->
+  <section class="news">
+    <div class="news-header">
+      <div>
+        <div class="news-label reveal">
+          <div class="news-label-line"></div>
+          <span class="news-label-text">Aggiornamenti</span>
+        </div>
+        <h2 class="news-title reveal reveal-d1">Ultime <span class="red">Notizie</span></h2>
+      </div>
+      <a class="news-all reveal reveal-d2" href="#">Tutte le notizie →</a>
+    </div>
+
+    <div class="news-grid reveal reveal-d1">
+
+      <!-- Card featured -->
+      <div class="news-card featured">
+        <div class="news-card-img" style="background-image: url('https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=800&q=80');"></div>
+        <div class="news-card-body">
+          <div class="news-card-meta">
+            <span class="news-card-cat">Prima Squadra</span>
+            <div class="news-card-dot"></div>
+            <span class="news-card-date">15 Marzo 2026</span>
+          </div>
+          <div class="news-card-title">Accordo con A.C. Monza: Schiaffino diventa Centro Tecnico ufficiale</div>
+          <div class="news-card-excerpt">Un traguardo storico per la società. L'accordo prevede collaborazioni tecniche, scambi formativi e la possibilità per i nostri giovani talenti di entrare in contatto con la realtà del club brianzolo.</div>
+        </div>
+        <div class="news-card-divider"></div>
+        <div class="news-card-footer">
+          <a class="news-card-link" href="#">Leggi di più</a>
+          <div class="news-card-arrow-icon">→</div>
+        </div>
+      </div>
+
+      <!-- Colonna secondaria -->
+      <div class="news-secondary">
+        <div class="news-card" style="flex:1;">
+          <div class="news-card-img" style="background-image: url('https://images.unsplash.com/photo-1560272564-c83b66b1ad12?w=600&q=80');"></div>
+          <div class="news-card-body">
+            <div class="news-card-meta">
+              <span class="news-card-cat">Scuola Calcio</span>
+              <div class="news-card-dot"></div>
+              <span class="news-card-date">10 Mar 2026</span>
+            </div>
+            <div class="news-card-title">Summer Camp 2026: aperte le iscrizioni</div>
+          </div>
+          <div class="news-card-divider"></div>
+          <div class="news-card-footer">
+            <a class="news-card-link" href="#">Leggi di più</a>
+            <div class="news-card-arrow-icon">→</div>
+          </div>
+        </div>
+
+        <div class="news-card" style="flex:1;">
+          <div class="news-card-img" style="background-image: url('https://images.unsplash.com/photo-1551958219-acbc608c6377?w=600&q=80');"></div>
+          <div class="news-card-body">
+            <div class="news-card-meta">
+              <span class="news-card-cat">Agonistica</span>
+              <div class="news-card-dot"></div>
+              <span class="news-card-date">5 Mar 2026</span>
+            </div>
+            <div class="news-card-title">Giovanissimi ai Regionali: storico traguardo</div>
+          </div>
+          <div class="news-card-divider"></div>
+          <div class="news-card-footer">
+            <a class="news-card-link" href="#">Leggi di più</a>
+            <div class="news-card-arrow-icon">→</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Terza colonna -->
+      <div class="news-secondary">
+        <div class="news-card" style="flex:1;">
+          <div class="news-card-img" style="background-image: url('https://images.unsplash.com/photo-1553778263-73a83bab9b0c?w=600&q=80');"></div>
+          <div class="news-card-body">
+            <div class="news-card-meta">
+              <span class="news-card-cat">Strutture</span>
+              <div class="news-card-dot"></div>
+              <span class="news-card-date">28 Feb 2026</span>
+            </div>
+            <div class="news-card-title">Nuovo manto in erba artificiale: inaugurazione completata</div>
+          </div>
+          <div class="news-card-divider"></div>
+          <div class="news-card-footer">
+            <a class="news-card-link" href="#">Leggi di più</a>
+            <div class="news-card-arrow-icon">→</div>
+          </div>
+        </div>
+
+        <div class="news-card" style="flex:1;">
+          <div class="news-card-img" style="background-image: url('https://images.unsplash.com/photo-1577223625816-7546f13df25d?w=600&q=80');"></div>
+          <div class="news-card-body">
+            <div class="news-card-meta">
+              <span class="news-card-cat">Società</span>
+              <div class="news-card-dot"></div>
+              <span class="news-card-date">20 Feb 2026</span>
+            </div>
+            <div class="news-card-title">Programma gare weekend: tutti i risultati</div>
+          </div>
+          <div class="news-card-divider"></div>
+          <div class="news-card-footer">
+            <a class="news-card-link" href="#">Leggi di più</a>
+            <div class="news-card-arrow-icon">→</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CAMP -->
+  <section class="camp">
+    <div class="camp-bg-num">CAMP</div>
+
+    <div class="camp-header">
+      <div>
+        <div class="camp-label reveal">
+          <div class="camp-label-line"></div>
+          <span class="camp-label-text">Attività Stagionali</span>
+        </div>
+        <h2 class="camp-title reveal reveal-d1">Summer &amp;<br><span class="red">Winter Camp</span></h2>
+      </div>
+      <p class="camp-desc reveal reveal-d2">Settimane intensive di calcio e divertimento per ragazzi dai 5 ai 14 anni. Istruttori qualificati FIGC, pranzi inclusi, animazione e tanto sport.</p>
+    </div>
+
+    <div class="camp-panels">
+
+      <div class="camp-panel summer reveal reveal-d1">
+        <div class="camp-panel-bg" style="background-image: url('https://images.unsplash.com/photo-1543326727-cf6c39e8f84c?w=800&q=80');"></div>
+        <div class="camp-panel-color"></div>
+        <div class="camp-panel-overlay"></div>
+        <div class="camp-panel-content">
+          <div class="camp-panel-season">
+            <div class="camp-panel-icon">☀</div>
+            <span class="camp-panel-season-label">Giugno — Luglio</span>
+          </div>
+          <div class="camp-panel-name">Schiaffino<br>Summer Camp</div>
+          <div class="camp-panel-divider"></div>
+          <div class="camp-panel-info">
+            <div class="camp-panel-info-item">
+              <span class="camp-info-label">Età</span>
+              <span class="camp-info-val">5 — 14 anni</span>
+            </div>
+            <div class="camp-panel-info-item">
+              <span class="camp-info-label">Sede</span>
+              <span class="camp-info-val">Country Sport Village</span>
+            </div>
+            <div class="camp-panel-info-item">
+              <span class="camp-info-label">Orario</span>
+              <span class="camp-info-val">8:30 — 16:45</span>
+            </div>
+          </div>
+          <a class="camp-panel-cta" href="#">Scopri il programma</a>
+        </div>
+      </div>
+
+      <div class="camp-panel winter reveal reveal-d2">
+        <div class="camp-panel-bg" style="background-image: url('https://images.unsplash.com/photo-1518002054494-3a6f94352e9d?w=800&q=80');"></div>
+        <div class="camp-panel-color"></div>
+        <div class="camp-panel-overlay"></div>
+        <div class="camp-panel-content">
+          <div class="camp-panel-season">
+            <div class="camp-panel-icon">❄</div>
+            <span class="camp-panel-season-label">Dicembre</span>
+          </div>
+          <div class="camp-panel-name">Schiaffino<br>Winter Camp</div>
+          <div class="camp-panel-divider"></div>
+          <div class="camp-panel-info">
+            <div class="camp-panel-info-item">
+              <span class="camp-info-label">Età</span>
+              <span class="camp-info-val">5 — 14 anni</span>
+            </div>
+            <div class="camp-panel-info-item">
+              <span class="camp-info-label">Date</span>
+              <span class="camp-info-val">22, 23, 29, 30 Dic</span>
+            </div>
+            <div class="camp-panel-info-item">
+              <span class="camp-info-label">Orario</span>
+              <span class="camp-info-val">8:30 — 16:45</span>
+            </div>
+          </div>
+          <a class="camp-panel-cta" href="#">Scopri il programma</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SPONSOR -->
+  <section class="spon reveal">
+    <div class="spon-header">
+      <span class="spon-label-text">I nostri sponsor</span>
+      <div class="spon-line"></div>
+    </div>
+
+    <div class="spon-track-wrap">
+      <div class="spon-track">
+        <!-- Set 1 -->
+        <div class="spon-logo">
+          <div><div class="spon-logo-text">AC MONZA</div><div class="spon-logo-sub">Partner tecnico</div></div>
+        </div>
+        <div class="spon-logo">
+          <div><div class="spon-logo-text">FIGC</div><div class="spon-logo-sub">Federazione</div></div>
+        </div>
+        <div class="spon-logo">
+          <div><div class="spon-logo-text">SPONSOR 1</div><div class="spon-logo-sub">Main sponsor</div></div>
+        </div>
+        <div class="spon-logo">
+          <div><div class="spon-logo-text">SPONSOR 2</div><div class="spon-logo-sub">Fornitore</div></div>
+        </div>
+        <div class="spon-logo">
+          <div><div class="spon-logo-text">SPONSOR 3</div><div class="spon-logo-sub">Partner</div></div>
+        </div>
+        <div class="spon-logo">
+          <div><div class="spon-logo-text">SPONSOR 4</div><div class="spon-logo-sub">Partner</div></div>
+        </div>
+        <div class="spon-logo">
+          <div><div class="spon-logo-text">SPONSOR 5</div><div class="spon-logo-sub">Partner</div></div>
+        </div>
+        <!-- Set 2 — duplicato per loop infinito -->
+        <div class="spon-logo">
+          <div><div class="spon-logo-text">AC MONZA</div><div class="spon-logo-sub">Partner tecnico</div></div>
+        </div>
+        <div class="spon-logo">
+          <div><div class="spon-logo-text">FIGC</div><div class="spon-logo-sub">Federazione</div></div>
+        </div>
+        <div class="spon-logo">
+          <div><div class="spon-logo-text">SPONSOR 1</div><div class="spon-logo-sub">Main sponsor</div></div>
+        </div>
+        <div class="spon-logo">
+          <div><div class="spon-logo-text">SPONSOR 2</div><div class="spon-logo-sub">Fornitore</div></div>
+        </div>
+        <div class="spon-logo">
+          <div><div class="spon-logo-text">SPONSOR 3</div><div class="spon-logo-sub">Partner</div></div>
+        </div>
+        <div class="spon-logo">
+          <div><div class="spon-logo-text">SPONSOR 4</div><div class="spon-logo-sub">Partner</div></div>
+        </div>
+        <div class="spon-logo">
+          <div><div class="spon-logo-text">SPONSOR 5</div><div class="spon-logo-sub">Partner</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="spon-cta-row">
+      <div class="spon-cta-line"></div>
+      <a class="spon-cta-link" href="#">Diventa sponsor →</a>
+      <div class="spon-cta-line"></div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="ft">
+    <div class="ft-top">
+
+      <div class="ft-brand reveal">
+        <a class="ft-brand-logo" href="#">
+          <div class="ft-brand-circle">CS</div>
+          <div>
+            <div class="ft-brand-name">Centro Schiaffino</div>
+            <div class="ft-brand-year">Dal 1988 · Paderno Dugnano</div>
+          </div>
+        </a>
+        <p class="ft-brand-desc">Società di calcio giovanile riconosciuta FIGC. Formiamo campioni dentro e fuori dal campo dal 1988.</p>
+        <div class="ft-social">
+          <a class="ft-social-btn" href="#">Fb</a>
+          <a class="ft-social-btn" href="#">Ig</a>
+          <a class="ft-social-btn" href="#">Yt</a>
+        </div>
+      </div>
+
+      <div class="reveal reveal-d1">
+        <div class="ft-col-title">Navigazione</div>
+        <div class="ft-col-links">
+          <a href="#">Home</a>
+          <a href="#">Chi siamo</a>
+          <a href="#">Scuola Calcio</a>
+          <a href="#">Prima Squadra</a>
+          <a href="#">Strutture sportive</a>
+          <a href="#">News</a>
+          <a href="#">Contatti</a>
+        </div>
+      </div>
+
+      <div class="reveal reveal-d2">
+        <div class="ft-col-title">Attività</div>
+        <div class="ft-col-links">
+          <a href="#">Piccoli Amici</a>
+          <a href="#">Primi Calci</a>
+          <a href="#">Pulcini</a>
+          <a href="#">Esordienti</a>
+          <a href="#">Giovanissimi</a>
+          <a href="#">Allievi &amp; Juniores</a>
+          <a href="#">Summer Camp</a>
+          <a href="#">Winter Camp</a>
+        </div>
+      </div>
+
+      <div class="reveal reveal-d3">
+        <div class="ft-col-title">Contatti</div>
+        <div class="ft-contact-item">
+          <span class="ft-contact-label">Telefono</span>
+          <span class="ft-contact-val"><a href="tel:3385092377">338 509 2377</a></span>
+        </div>
+        <div class="ft-contact-item">
+          <span class="ft-contact-label">Email</span>
+          <span class="ft-contact-val"><a href="mailto:info@centroschiaffino.com">info@centroschiaffino.com</a></span>
+        </div>
+        <div class="ft-contact-item">
+          <span class="ft-contact-label">Sede principale</span>
+          <span class="ft-contact-val">Via Sondrio 36<br>Paderno Dugnano (MI)</span>
+        </div>
+        <div class="ft-contact-item">
+          <span class="ft-contact-label">Country Sport Village</span>
+          <span class="ft-contact-val">Via Pepe 68<br>Paderno Dugnano (MI)</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="ft-bottom">
+      <p class="ft-copy">© 2026 Centro Schiaffino 1988. Tutti i diritti riservati. P.IVA xxxxxxxx — <span>Made with ♥ in Paderno Dugnano</span></p>
+      <div class="ft-bottom-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Cookie Policy</a>
+        <a href="#">Note legali</a>
+      </div>
+    </div>
+
+    <div class="ft-red-bar"></div>
+  </footer>
+
+
+  <script>
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 20);
+    });
+
+    function animateCounter(el) {
+      const target = parseInt(el.getAttribute('data-target'));
+      const suffix = el.getAttribute('data-suffix') || '';
+      const step = target / (1400 / 16);
+      let current = 0;
+      const timer = setInterval(() => {
+        current = Math.min(current + step, target);
+        el.innerHTML = Math.round(current) + (suffix ? `<span class="red">${suffix}</span>` : '');
+        if (current >= target) clearInterval(timer);
+      }, 16);
+    }
+
+    setTimeout(() => {
+      document.querySelectorAll('.hero-stat-num[data-target]').forEach(animateCounter);
+    }, 1600);
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
